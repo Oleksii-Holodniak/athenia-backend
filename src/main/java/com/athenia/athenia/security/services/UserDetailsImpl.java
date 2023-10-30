@@ -3,11 +3,8 @@ package com.athenia.athenia.security.services;
 import com.athenia.athenia.model.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsImpl implements UserDetails {
@@ -33,11 +30,7 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public static UserDetailsImpl build(UserEntity user) {
-		return new UserDetailsImpl(
-				user.getId(),
-				user.getUsername(),
-				user.getEmail(),
-				user.getPassword());
+		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword());
 	}
 
 	@Override

@@ -25,9 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//for Angular Client (withCredentials)
-//@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600, allowCredentials="true")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:3000", "http://ec2-34-227-7-190.compute-1.amazonaws.com/"})
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -68,7 +66,6 @@ public class AuthController {
 					.badRequest()
 					.body(new MessageResponse(HttpStatus.BAD_REQUEST.value(), "Error: Email is already in use!"));
 		}
-
 		UserEntity user = new UserEntity(signUpRequest.getUsername(),
 				signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
