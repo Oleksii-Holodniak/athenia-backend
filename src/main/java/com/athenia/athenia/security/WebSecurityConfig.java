@@ -56,9 +56,7 @@ public class WebSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.cors(AbstractHttpConfigurer::disable)
-				.csrf(AbstractHttpConfigurer::disable)
-				.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+		http.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth ->
 						auth.requestMatchers("/api/auth/**").permitAll()
@@ -72,7 +70,7 @@ public class WebSecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://ec2-34-227-7-190.compute-1.amazonaws.com/", "http://localhost:3000/"));
+		configuration.setAllowedOrigins(Arrays.asList("http://ec2-34-227-7-190.compute-1.amazonaws.com", "http://localhost:3000"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
 		configuration.setAllowCredentials(true);
