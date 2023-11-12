@@ -20,7 +20,7 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
 
-      - name: maven
+      - name: Restart project
         run: |
           touch key.pem
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
@@ -29,5 +29,6 @@ jobs:
           sudo kill -9 `sudo lsof -t -i:8080`
           cd ~/athenia-backend 
           mvn spring-boot:stop
+          mvn clean install
           screen -d -m mvn spring-boot:run
           '

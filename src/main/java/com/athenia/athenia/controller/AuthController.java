@@ -1,6 +1,6 @@
 package com.athenia.athenia.controller;
 
-import com.athenia.athenia.model.UserEntity;
+import com.athenia.athenia.model.User;
 import com.athenia.athenia.payload.request.LoginRequest;
 import com.athenia.athenia.payload.request.SignupRequest;
 import com.athenia.athenia.payload.response.MessageResponse;
@@ -54,17 +54,17 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+		if (Boolean.TRUE.equals(userRepository.existsByUsername(signUpRequest.getUsername()))) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse(HttpStatus.BAD_REQUEST.value(), "Error: Username is already taken!"));
 		}
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+		if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequest.getEmail()))) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse(HttpStatus.BAD_REQUEST.value(), "Error: Email is already in use!"));
 		}
-		UserEntity user = new UserEntity(signUpRequest.getUsername(),
+		User user = new User(signUpRequest.getUsername(),
 				signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
 		userRepository.save(user);

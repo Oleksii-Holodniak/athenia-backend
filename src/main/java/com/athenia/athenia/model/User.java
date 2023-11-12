@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
-public class UserEntity {
+public class User {
 	@Id
 	private String id;
 	@NotBlank
@@ -21,7 +21,7 @@ public class UserEntity {
 	@Size(max = 120)
 	private String password;
 
-	public UserEntity(String username, String email, String password) {
+	public User(String username, String email, String password) {
 		this.email = email;
 		this.username = username;
 		this.password = password;
@@ -31,7 +31,7 @@ public class UserEntity {
 		return username;
 	}
 
-	public UserEntity setUsername(String username) {
+	public User setUsername(String username) {
 		this.username = username;
 		return this;
 	}
@@ -40,7 +40,7 @@ public class UserEntity {
 		return id;
 	}
 
-	public UserEntity setId(String id) {
+	public User setId(String id) {
 		this.id = id;
 		return this;
 	}
@@ -49,7 +49,7 @@ public class UserEntity {
 		return email;
 	}
 
-	public UserEntity setEmail(String email) {
+	public User setEmail(String email) {
 		this.email = email;
 		return this;
 	}
@@ -58,7 +58,7 @@ public class UserEntity {
 		return password;
 	}
 
-	public UserEntity setPassword(String password) {
+	public User setPassword(String password) {
 		this.password = password;
 		return this;
 	}

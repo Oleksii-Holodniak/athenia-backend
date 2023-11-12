@@ -1,7 +1,5 @@
 package com.athenia.athenia.payload.response;
 
-import org.springframework.http.HttpStatus;
-
 public class MessageResponse {
 
 	private final int status;

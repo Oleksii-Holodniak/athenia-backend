@@ -1,11 +1,11 @@
 package com.athenia.athenia.repository;
 
-import com.athenia.athenia.model.UserEntity;
+import com.athenia.athenia.model.User;
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface UserRepository extends MongoRepository<UserEntity, String> {
-	Optional<UserEntity> findByUsername(String username);
+public interface UserRepository extends MongoRepository<User, String> {
+	Optional<User> findByUsername(String username);
 
 	Boolean existsByUsername(String username);
 

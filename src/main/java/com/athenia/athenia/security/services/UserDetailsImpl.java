@@ -1,6 +1,6 @@
 package com.athenia.athenia.security.services;
 
-import com.athenia.athenia.model.UserEntity;
+import com.athenia.athenia.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.Objects;
@@ -29,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(UserEntity user) {
+	public static UserDetailsImpl build(User user) {
 		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword());
 	}
 
