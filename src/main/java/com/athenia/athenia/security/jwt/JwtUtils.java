@@ -22,6 +22,8 @@ import org.springframework.web.util.WebUtils;
 @Component
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+	private static final int MAX_AGE_IN_SECONDS = 86400;
+	private static final String PATH = "/api";
 
 	@Value("${athenia.app.jwtSecret}")
 	private String jwtSecret;
@@ -43,22 +45,22 @@ public class JwtUtils {
 
 	public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
 		String jwt = generateTokenFromUsername(userPrincipal.getUsername());
-		ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
-		return cookie;
+		return ResponseCookie.from(jwtCookie, jwt)
+				.path(PATH)
+				.maxAge(MAX_AGE_IN_SECONDS)
+				.httpOnly(true)
+				.build();
 	}
 
 	public ResponseCookie getCleanJwtCookie() {
-		ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
-		return cookie;
+		return ResponseCookie.from(jwtCookie, null)
+				.path(PATH)
+				.build();
 	}
 
 	public String getUserNameFromJwtToken(String token) {
 		return Jwts.parserBuilder().setSigningKey(key()).build()
 				.parseClaimsJws(token).getBody().getSubject();
-	}
-
-	private Key key() {
-		return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
 	}
 
 	public boolean validateJwtToken(String authToken) {
@@ -77,12 +79,16 @@ public class JwtUtils {
 		return false;
 	}
 
-	public String generateTokenFromUsername(String username) {
+	private String generateTokenFromUsername(String username) {
 		return Jwts.builder()
 				.setSubject(username)
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(key(), SignatureAlgorithm.HS256)
 				.compact();
+	}
+
+	private Key key() {
+		return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
 	}
 }
