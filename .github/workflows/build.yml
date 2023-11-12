@@ -29,5 +29,5 @@ jobs:
           sudo kill -9 `sudo lsof -t -i:8080`
           cd ~/athenia-backend 
           mvn spring-boot:stop
-          nohup mvn spring-boot:run
+          screen -d -m mvn spring-boot:run
           '
