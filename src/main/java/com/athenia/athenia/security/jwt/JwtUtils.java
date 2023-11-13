@@ -1,6 +1,5 @@
 package com.athenia.athenia.security.jwt;
 
-import com.athenia.athenia.security.services.UserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -24,6 +23,7 @@ public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 	private static final int MAX_AGE_IN_SECONDS = 86400;
 	private static final String PATH = "/api";
+	private static final String SAME_SITE = "Strict";
 
 	@Value("${athenia.app.jwtSecret}")
 	private String jwtSecret;
@@ -47,7 +47,9 @@ public class JwtUtils {
 		String jwt = generateTokenFromUsername(username);
 		return ResponseCookie.from(jwtCookie, jwt)
 				.maxAge(MAX_AGE_IN_SECONDS)
+				.sameSite(SAME_SITE)
 				.httpOnly(true)
+				.secure(true)
 				.path(PATH)
 				.build();
 	}
