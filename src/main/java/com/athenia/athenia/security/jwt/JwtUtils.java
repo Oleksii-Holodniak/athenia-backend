@@ -46,10 +46,9 @@ public class JwtUtils {
 	public ResponseCookie generateJwtCookie(String username) {
 		String jwt = generateTokenFromUsername(username);
 		return ResponseCookie.from(jwtCookie, jwt)
-				.path(PATH)
 				.maxAge(MAX_AGE_IN_SECONDS)
-				.sameSite("None")
 				.httpOnly(true)
+				.path(PATH)
 				.build();
 	}
 
