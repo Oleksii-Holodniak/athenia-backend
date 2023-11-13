@@ -41,11 +41,10 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+		ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(loginRequest.getUsername());
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
 				.body(new UserInfoResponse(userDetails.getId(),
 						userDetails.getUsername(),
@@ -68,6 +67,8 @@ public class AuthController {
 				signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
 		userRepository.save(user);
-		return ResponseEntity.ok(new MessageResponse(HttpStatus.OK.value(), "User registered successfully!"));
+		ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(signUpRequest.getUsername());
+		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+				.body(new MessageResponse(HttpStatus.OK.value(), "User registered successfully!"));
 	}
 }

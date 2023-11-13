@@ -43,11 +43,12 @@ public class JwtUtils {
 		}
 	}
 
-	public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
-		String jwt = generateTokenFromUsername(userPrincipal.getUsername());
+	public ResponseCookie generateJwtCookie(String username) {
+		String jwt = generateTokenFromUsername(username);
 		return ResponseCookie.from(jwtCookie, jwt)
 				.path(PATH)
 				.maxAge(MAX_AGE_IN_SECONDS)
+				.sameSite("None")
 				.httpOnly(true)
 				.build();
 	}
