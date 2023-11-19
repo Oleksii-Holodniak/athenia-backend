@@ -23,7 +23,7 @@ public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 	private static final int MAX_AGE_IN_SECONDS = 86400;
 	private static final String SAME_SITE = "Strict";
-	private static final String PATH = "/api";
+	private static final String PATH = "/";
 
 	@Value("${athenia.app.jwtSecret}")
 	private String jwtSecret;
