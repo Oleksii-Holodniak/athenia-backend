@@ -3,9 +3,9 @@ package com.athenia.athenia.controller;
 import com.athenia.athenia.model.User;
 import com.athenia.athenia.payload.request.LoginRequest;
 import com.athenia.athenia.payload.request.SignupRequest;
-import com.athenia.athenia.payload.response.MessageResponse;
 import com.athenia.athenia.payload.response.UserInfoResponse;
 import com.athenia.athenia.repository.UserRepository;
+import com.athenia.athenia.response.MessageResponse;
 import com.athenia.athenia.security.jwt.JwtUtils;
 import com.athenia.athenia.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,5 +71,13 @@ public class AuthController {
 		ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(signUpRequest.getUsername());
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
 				.body(new MessageResponse(HttpStatus.OK.value(), "User registered successfully!"));
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<?> logout() {
+		ResponseCookie jwtCookie = jwtUtils.getCleanJwtCookie();
+		return ResponseEntity.ok()
+				.header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+				.body(new MessageResponse<>("Successfully logged out"));
 	}
 }

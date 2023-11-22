@@ -3,7 +3,7 @@ package com.athenia.athenia.controller;
 import com.athenia.athenia.dto.UserDTO;
 import com.athenia.athenia.exception.EntityNotFoundException;
 import com.athenia.athenia.mapper.UserMapper;
-import com.athenia.athenia.response.ApiResponse;
+import com.athenia.athenia.response.ListObjectResponse;
 import com.athenia.athenia.service.UserService;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping("/info")
-	public ApiResponse<UserDTO> getUserInfo() {
+	public ListObjectResponse<UserDTO> getUserInfo() {
 		try {
-			return new ApiResponse<>(Stream.of(userService.getUser(SecurityContextHolder.getContext().getAuthentication()))
+			return new ListObjectResponse<>(Stream.of(userService.getUser(SecurityContextHolder.getContext().getAuthentication()))
 					.map(UserMapper.INSTANCE::userToUserDTO)
 					.toList());
 		} catch (EntityNotFoundException exception) {
-			return new ApiResponse<>(HttpStatus.BAD_REQUEST, exception);
+			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
 		}
 	}
 }
