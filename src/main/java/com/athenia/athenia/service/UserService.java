@@ -19,7 +19,7 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public User findByUserName(String username) {
+	public User findByUsername(String username) {
 		Optional<User> user = userRepository.findByUsername(username);
 		if (user.isEmpty()) {
 			throw new EntityNotFoundException(User.class, username);
@@ -28,6 +28,6 @@ public class UserService {
 	}
 
 	public User getUser(Authentication authentication) {
-		return findByUserName(authentication.getName());
+		return findByUsername(authentication.getName());
 	}
 }
