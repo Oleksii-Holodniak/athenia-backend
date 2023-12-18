@@ -11,6 +11,6 @@ public class EntityNotFoundException extends RuntimeException {
 	}
 
 	public EntityNotFoundException(Class object, String username) {
-		super("Not fount object " + object.getSimpleName() + " in database by username: " + username);
+		super("Not fount object " + object.getSimpleName() + " in database by value: " + username);
 	}
 }

@@ -16,6 +16,11 @@ public class MessageResponse<T> {
 		this.message = message;
 	}
 
+	public MessageResponse(HttpStatus status, String message) {
+		this.status = status.value();
+		this.message = message;
+	}
+
 	public MessageResponse(String message) {
 		this.status = HttpStatus.OK.value();
 		this.message = message;
