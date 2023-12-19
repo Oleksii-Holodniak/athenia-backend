@@ -1,6 +1,7 @@
 package com.athenia.athenia.mapper;
 
 import com.athenia.athenia.dto.UserDTO;
+import com.athenia.athenia.dto.UserInfoDTO;
 import com.athenia.athenia.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,6 +17,8 @@ public interface UserMapper {
 	UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
 	UserDTO userToUserDTO(User user);
+
+	UserInfoDTO userToUserInfoDTO(User user);
 
 	@Mapping(target = "password", ignore = true)
 	User userDTOToUser(UserDTO userDTO);

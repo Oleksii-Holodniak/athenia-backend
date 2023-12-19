@@ -25,6 +25,14 @@ public class CourseReferenceService {
 		return courseReferenceRepository.findAllByCourse(course);
 	}
 
+	public List<CourseReference> findAllByUserOwner(User user) {
+		return courseReferenceRepository.findAllByUserAndCourseReferenceType(user, CourseReferenceType.OWNER);
+	}
+
+	public List<CourseReference> findAllByUserStudent(User user) {
+		return courseReferenceRepository.findAllByUserAndCourseReferenceType(user, CourseReferenceType.STUDENT);
+	}
+
 	public void addOwnerReference(Course course, User owner) {
 		create(course, owner, CourseReferenceType.OWNER);
 	}

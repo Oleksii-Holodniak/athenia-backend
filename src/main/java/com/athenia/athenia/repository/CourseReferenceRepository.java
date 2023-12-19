@@ -19,4 +19,6 @@ public interface CourseReferenceRepository extends MongoRepository<CourseReferen
 	Optional<CourseReference> findByAllFields(CourseReferenceType courseReferenceType, Course course, User user);
 
 	List<CourseReference> findAllByCourse(Course course);
+
+	List<CourseReference> findAllByUserAndCourseReferenceType(User user, CourseReferenceType type);
 }
