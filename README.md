@@ -1,2 +1,2 @@
 # athenia-backend
-Athenia backend 1
+Athenia education project
