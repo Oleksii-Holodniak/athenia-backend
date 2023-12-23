@@ -74,7 +74,7 @@ public class WebSecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://ec2-34-227-7-190.compute-1.amazonaws.com", "http://localhost:3000", "http://localhost:8080"));
+		configuration.setAllowedOrigins(Arrays.asList("http://ec2-54-158-114-28.compute-1.amazonaws.com", "http://localhost:3000", "http://localhost:8080"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
 		configuration.setAllowCredentials(true);
