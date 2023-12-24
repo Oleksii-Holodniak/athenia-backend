@@ -1,6 +1,7 @@
 package com.athenia.athenia.controller;
 
 import com.athenia.athenia.dto.CourseDTO;
+import com.athenia.athenia.dto.CourseFullDTO;
 import com.athenia.athenia.dto.UserDTO;
 import com.athenia.athenia.enumeration.CourseReferenceType;
 import com.athenia.athenia.exception.EntityNotFoundException;
@@ -139,8 +140,16 @@ public class CourseController {
 	private ListObjectResponse<CourseDTO> convert(List<Course> courses) {
 		List<CourseDTO> coursesDTO = new ArrayList<>(courses.size());
 		for (Course course : courses) {
+			coursesDTO.add(CourseMapper.INSTANCE.courseToCourseDTO(course));
+		}
+		return new ListObjectResponse<>(coursesDTO);
+	}
+
+	private ListObjectResponse<CourseFullDTO> convertFull(List<Course> courses) {
+		List<CourseFullDTO> coursesDTO = new ArrayList<>(courses.size());
+		for (Course course : courses) {
 			List<CourseReference> courseReferences = courseReferenceService.findAllByCourse(course);
-			coursesDTO.add(CourseMapper.INSTANCE.courseToCourseDTO(course)
+			coursesDTO.add( CourseMapper.INSTANCE.courseToCourseFullDTO(course)
 					.setOwners(getUsers(courseReferences, CourseReferenceType.OWNER))
 					.setStudents(getUsers(courseReferences, CourseReferenceType.STUDENT)));
 		}

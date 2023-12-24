@@ -14,26 +14,6 @@ public class CourseDTO {
 	private String description;
 	private String securityCode;
 	private List<TagDTO> tags;
-	private List<UserDTO> owners;
-	private List<UserDTO> students;
-
-	public List<UserDTO> getStudents() {
-		return students;
-	}
-
-	public CourseDTO setStudents(List<UserDTO> students) {
-		this.students = students;
-		return this;
-	}
-
-	public List<UserDTO> getOwners() {
-		return owners;
-	}
-
-	public CourseDTO setOwners(List<UserDTO> owners) {
-		this.owners = owners;
-		return this;
-	}
 
 	public String getId() {
 		return id;
