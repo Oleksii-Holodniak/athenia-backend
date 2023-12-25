@@ -3,6 +3,7 @@ package com.athenia.athenia.dto;
 import java.util.List;
 
 public class CourseFullDTO extends CourseDTO {
+	private String securityCode;
 	private List<UserDTO> owners;
 	private List<UserDTO> students;
 
@@ -24,4 +25,12 @@ public class CourseFullDTO extends CourseDTO {
 		return this;
 	}
 
+	public String getSecurityCode() {
+		return securityCode;
+	}
+
+	public CourseDTO setSecurityCode(String securityCode) {
+		this.securityCode = securityCode;
+		return this;
+	}
 }

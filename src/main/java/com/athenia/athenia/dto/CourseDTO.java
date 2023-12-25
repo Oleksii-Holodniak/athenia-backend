@@ -12,8 +12,7 @@ public class CourseDTO {
 	private String id;
 	private String title;
 	private String description;
-	private String securityCode;
-	private List<TagDTO> tags;
+	private List<String> tags;
 
 	public String getId() {
 		return id;
@@ -42,20 +41,11 @@ public class CourseDTO {
 		return this;
 	}
 
-	public String getSecurityCode() {
-		return securityCode;
-	}
-
-	public CourseDTO setSecurityCode(String securityCode) {
-		this.securityCode = securityCode;
-		return this;
-	}
-
-	public List<TagDTO> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
 
-	public CourseDTO setTags(List<TagDTO> tags) {
+	public CourseDTO setTags(List<String> tags) {
 		this.tags = tags;
 		return this;
 	}
