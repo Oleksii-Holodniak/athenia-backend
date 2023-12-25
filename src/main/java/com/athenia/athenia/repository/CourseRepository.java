@@ -17,7 +17,7 @@ public interface CourseRepository extends MongoRepository<Course, String> {
 
 	Optional<Course> findById(String securityCode);
 
-	Page<Course> findByTagsContainsAndTitleLike(List<String> tags, String title, Pageable pageable);
-	Page<Course> findByTagsContains(List<String> tags, Pageable pageable);
-	Page<Course> findByTitleLike(String title, Pageable pageable);
+	Page<Course> findByTagsContainsAndTitleLikeIgnoreCase(List<String> tags, String title, Pageable pageable);
+	Page<Course> findByTagsContainsIgnoreCase(List<String> tags, Pageable pageable);
+	Page<Course> findByTitleLikeIgnoreCase(String title, Pageable pageable);
 }

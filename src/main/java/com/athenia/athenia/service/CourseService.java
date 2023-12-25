@@ -61,11 +61,11 @@ public class CourseService {
 		}
 		Page<Course> courses = null;
 		if (tags.get(0).equals("") && !StringUtils.isBlank(title)) {
-			courses = courseRepository.findByTitleLike(title, PageRequest.of(page, limit));
+			courses = courseRepository.findByTitleLikeIgnoreCase(title, PageRequest.of(page, limit));
 		} else if (!tags.get(0).equals("") && StringUtils.isBlank(title)) {
-			courses = courseRepository.findByTagsContains(tags, PageRequest.of(page, limit));
+			courses = courseRepository.findByTagsContainsIgnoreCase(tags, PageRequest.of(page, limit));
 		} else {
-			courses = courseRepository.findByTagsContainsAndTitleLike(tags, title, PageRequest.of(page, limit));
+			courses = courseRepository.findByTagsContainsAndTitleLikeIgnoreCase(tags, title, PageRequest.of(page, limit));
 		}
 		return courses.getContent();
 	}
