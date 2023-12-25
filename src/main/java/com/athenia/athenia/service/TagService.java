@@ -24,7 +24,7 @@ public class TagService {
 	}
 
 	public Tag create(TagDTO tagDTO) {
-		Tag existingTag = tagRepository.findByTag(tagDTO.getTag());
+		Tag existingTag = tagRepository.findByTagIgnoreCase(tagDTO.getTag());
 		if (existingTag != null) {
 			throw new ExistObjectException(Tag.class, tagDTO.getTag());
 		}
@@ -33,7 +33,7 @@ public class TagService {
 	}
 
 	public void delete(String tag) {
-		Tag existingTag = tagRepository.findByTag(tag);
+		Tag existingTag = tagRepository.findByTagIgnoreCase(tag);
 		if (existingTag != null) {
 			tagRepository.delete(existingTag);
 		}
@@ -42,7 +42,7 @@ public class TagService {
 	public List<Tag> find(List<String> tagsDTO) {
 		return tagsDTO.stream()
 				.map(tagDTO -> {
-					Tag tag = tagRepository.findByTag(tagDTO);
+					Tag tag = tagRepository.findByTagIgnoreCase(tagDTO);
 					if (tag == null) {
 						throw new EntityNotFoundException(Tag.class, tagDTO);
 					}

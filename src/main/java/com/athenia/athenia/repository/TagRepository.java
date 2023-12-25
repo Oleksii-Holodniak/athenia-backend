@@ -9,5 +9,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @since 2023/12/17
  */
 public interface TagRepository extends MongoRepository<Tag, String> {
-	Tag findByTag(String tag);
+	Tag findByTagIgnoreCase(String tag);
 }
