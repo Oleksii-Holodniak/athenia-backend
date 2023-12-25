@@ -62,4 +62,25 @@ public class User {
 		this.password = password;
 		return this;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof User user)) {
+			return false;
+		}
+		if (!getEmail().equals(user.getEmail())) {
+			return false;
+		}
+		return getUsername().equals(user.getUsername());
+	}
+
+	@Override
+	public int hashCode() {
+		int result = getEmail().hashCode();
+		result = 31 * result + getUsername().hashCode();
+		return result;
+	}
 }

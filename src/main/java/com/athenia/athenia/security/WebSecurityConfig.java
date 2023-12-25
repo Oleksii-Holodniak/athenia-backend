@@ -65,6 +65,8 @@ public class WebSecurityConfig {
 						auth.requestMatchers("/api/auth/**").permitAll()
 								.requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
 								.requestMatchers("/api/course").permitAll()
+								.requestMatchers("/api/course/{id}").permitAll()
+								.requestMatchers("/api/course/find/{securityCode}").permitAll()
 								.anyRequest().authenticated()
 				)
 				.authenticationProvider(authenticationProvider())

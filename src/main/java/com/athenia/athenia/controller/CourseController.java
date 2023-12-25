@@ -53,10 +53,28 @@ public class CourseController {
 		}
 	}
 
-	@GetMapping("/{securityCode}")
-	public ListObjectResponse<CourseDTO> findBySecurityCode(@PathVariable String securityCode) {
+	@GetMapping("/find/{securityCode}")
+	public ListObjectResponse<? extends CourseDTO> findBySecurityCode(@PathVariable String securityCode) {
 		try {
 			Course course = courseService.findBySecurityCode(securityCode);
+			String ownerName = SecurityContextHolder.getContext().getAuthentication().getName();
+			if (courseService.existInCourseReference(course.getId(), ownerName)) {
+				return convertFull(course);
+			}
+			return convert(course);
+		} catch (EntityNotFoundException exception) {
+			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
+		}
+	}
+
+	@GetMapping("/{id}")
+	public ListObjectResponse<? extends CourseDTO> findById(@PathVariable String id) {
+		try {
+			Course course = courseService.findById(id);
+			String ownerName = SecurityContextHolder.getContext().getAuthentication().getName();
+			if (courseService.existInCourseReference(course.getId(), ownerName)) {
+				return convertFull(course);
+			}
 			return convert(course);
 		} catch (EntityNotFoundException exception) {
 			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
@@ -137,6 +155,10 @@ public class CourseController {
 		return convert(List.of(course));
 	}
 
+	private ListObjectResponse<CourseFullDTO> convertFull(Course course) {
+		return convertFull(List.of(course));
+	}
+
 	private ListObjectResponse<CourseDTO> convert(List<Course> courses) {
 		List<CourseDTO> coursesDTO = new ArrayList<>(courses.size());
 		for (Course course : courses) {
@@ -149,7 +171,7 @@ public class CourseController {
 		List<CourseFullDTO> coursesDTO = new ArrayList<>(courses.size());
 		for (Course course : courses) {
 			List<CourseReference> courseReferences = courseReferenceService.findAllByCourse(course);
-			coursesDTO.add( CourseMapper.INSTANCE.courseToCourseFullDTO(course)
+			coursesDTO.add(CourseMapper.INSTANCE.courseToCourseFullDTO(course)
 					.setOwners(getUsers(courseReferences, CourseReferenceType.OWNER))
 					.setStudents(getUsers(courseReferences, CourseReferenceType.STUDENT)));
 		}
