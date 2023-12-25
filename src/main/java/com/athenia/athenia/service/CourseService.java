@@ -11,6 +11,7 @@ import com.athenia.athenia.model.CourseReference;
 import com.athenia.athenia.model.Tag;
 import com.athenia.athenia.model.User;
 import com.athenia.athenia.repository.CourseRepository;
+import io.micrometer.common.util.StringUtils;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,8 @@ import java.util.function.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -52,10 +55,25 @@ public class CourseService {
 				.orElseThrow(() -> new EntityNotFoundException(Course.class, securityCode));
 	}
 
+	public List<Course> search(String title, List<String> tags, Integer limit, Integer page) {
+		if (StringUtils.isBlank(title) && tags.get(0).equals("")) {
+			return courseRepository.findAll();
+		}
+		Page<Course> courses = null;
+		if (tags.get(0).equals("") && !StringUtils.isBlank(title)) {
+			courses = courseRepository.findByTitleLike(title, PageRequest.of(page, limit));
+		} else if (!tags.get(0).equals("") && StringUtils.isBlank(title)) {
+			courses = courseRepository.findByTagsContains(tags, PageRequest.of(page, limit));
+		} else {
+			courses = courseRepository.findByTagsContainsAndTitleLike(tags, title, PageRequest.of(page, limit));
+		}
+		return courses.getContent();
+	}
+
 	public Course create(CourseDTO courseDTO, String ownerName) {
 		List<Tag> tags = tagService.find(courseDTO.getTags());
 		Course course = CourseMapper.INSTANCE.courseDTOToCourse(courseDTO)
-				.setTags(tags)
+				.setTags(tags.stream().map(Tag::getTag).toList())
 				.setSecurityCode(UUID.randomUUID().toString());
 		course = courseRepository.save(course);
 		User user = userService.findByUsername(ownerName);
@@ -68,7 +86,7 @@ public class CourseService {
 		List<Tag> tags = tagService.find(courseDTO.getTags());
 		course.setDescription(courseDTO.getDescription())
 				.setTitle(courseDTO.getTitle())
-				.setTags(tags);
+				.setTags(tags.stream().map(Tag::getTag).toList());
 		return courseRepository.save(course);
 	}
 

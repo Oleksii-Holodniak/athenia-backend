@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -62,6 +63,18 @@ public class CourseController {
 				return convertFull(course);
 			}
 			return convert(course);
+		} catch (EntityNotFoundException exception) {
+			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
+		}
+	}
+
+	@GetMapping("/search")
+	public ListObjectResponse<CourseDTO> search(@RequestParam(name = "query", defaultValue = " ", required = false) String title,
+												@RequestParam(name = "tags", defaultValue = " ", required = false) List<String> tags,
+												@RequestParam(name = "page", defaultValue = "1") Integer page,
+												@RequestParam(name = "limit", defaultValue = "20") Integer limit) {
+		try {
+			return convert(courseService.search(title, tags, limit, page - 1));
 		} catch (EntityNotFoundException exception) {
 			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
 		}

@@ -39,18 +39,6 @@ public class TagService {
 		}
 	}
 
-//	public List<Tag> find(List<TagDTO> tagsDTO) {
-//		return tagsDTO.stream()
-//				.map(tagDTO -> {
-//					Tag tag = tagRepository.findByTag(tagDTO.getTag());
-//					if (tag == null) {
-//						throw new EntityNotFoundException(Tag.class, tagDTO.getTag());
-//					}
-//					return tag;
-//				})
-//				.toList();
-//	}
-
 	public List<Tag> find(List<String> tagsDTO) {
 		return tagsDTO.stream()
 				.map(tagDTO -> {

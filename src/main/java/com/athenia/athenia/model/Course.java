@@ -21,8 +21,7 @@ public class Course {
 	@NotBlank
 	@Indexed(unique = true)
 	private String securityCode;
-	@DBRef
-	private List<Tag> tags;
+	private List<String> tags;
 
 	public String getId() {
 		return id;
@@ -60,11 +59,11 @@ public class Course {
 		return this;
 	}
 
-	public List<Tag> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
 
-	public Course setTags(List<Tag> tags) {
+	public Course setTags(List<String> tags) {
 		this.tags = tags;
 		return this;
 	}
