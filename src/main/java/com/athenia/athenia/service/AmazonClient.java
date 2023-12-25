@@ -1,9 +1,12 @@
 package com.athenia.athenia.service;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import jakarta.annotation.PostConstruct;
@@ -34,21 +37,18 @@ public class AmazonClient {
 
 	@PostConstruct
 	private void initializeAmazon() {
-		AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-		this.s3client = new AmazonS3Client(credentials);
+		this.s3client = AmazonS3ClientBuilder.standard()
+				.withRegion(Regions.EU_CENTRAL_1)
+				.build();
 	}
 
-	public String uploadFile(MultipartFile multipartFile) {
+	public String uploadFile(MultipartFile multipartFile) throws IOException {
 		String fileUrl = "";
-		try {
-			File file = convertMultiPartToFile(multipartFile);
-			String fileName = generateFileName(multipartFile);
-			fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
-			uploadFileTos3bucket(fileName, file);
-			file.delete();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		File file = convertMultiPartToFile(multipartFile);
+		String fileName = generateFileName(multipartFile);
+		fileUrl = endpointUrl + "/" + fileName;
+		uploadFileTos3bucket(fileName, file);
+		file.delete();
 		return fileUrl;
 	}
 

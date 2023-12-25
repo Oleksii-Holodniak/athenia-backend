@@ -12,6 +12,7 @@ import com.athenia.athenia.model.Tag;
 import com.athenia.athenia.model.User;
 import com.athenia.athenia.repository.CourseRepository;
 import io.micrometer.common.util.StringUtils;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -70,7 +71,7 @@ public class CourseService {
 		return courses.getContent();
 	}
 
-	public Course create(CourseDTO courseDTO, String ownerName, MultipartFile preview) {
+	public Course create(CourseDTO courseDTO, String ownerName, MultipartFile preview) throws IOException {
 		List<Tag> tags = tagService.find(courseDTO.getTags());
 		String imageUrl = amazonClient.uploadFile(preview);
 		Course course = CourseMapper.INSTANCE.courseDTOToCourse(courseDTO)

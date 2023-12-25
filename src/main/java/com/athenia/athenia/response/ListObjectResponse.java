@@ -20,7 +20,7 @@ public class ListObjectResponse<T> {
 		this.result = null;
 	}
 
-	public ListObjectResponse(HttpStatus status, RuntimeException exception) {
+	public ListObjectResponse(HttpStatus status, Exception exception) {
 		this.status = status.value();
 		this.result = List.of((T) exception.getMessage());
 		this.total = null;

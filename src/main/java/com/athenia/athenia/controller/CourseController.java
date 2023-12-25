@@ -15,6 +15,7 @@ import com.athenia.athenia.response.ListObjectResponse;
 import com.athenia.athenia.response.MessageResponse;
 import com.athenia.athenia.service.CourseReferenceService;
 import com.athenia.athenia.service.CourseService;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +107,7 @@ public class CourseController {
 			String ownerName = SecurityContextHolder.getContext().getAuthentication().getName();
 			CourseDTO courseDTO = new CourseDTO().setTitle(title).setTags(tags).setDescription(description);
 			return convert((courseService.create(courseDTO, ownerName, preview)));
-		} catch (EntityNotFoundException | ExistObjectException exception) {
+		} catch (EntityNotFoundException | IOException | ExistObjectException exception) {
 			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
 		}
 	}
