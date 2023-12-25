@@ -112,11 +112,16 @@ public class CourseController {
 		}
 	}
 
-	@PutMapping
-	public ListObjectResponse<CourseDTO> update(@RequestBody CourseDTO courseDTO) {
+	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ListObjectResponse<CourseDTO> update(@RequestParam(value = "title") String title,
+												@RequestParam(value = "id") String id,
+												@RequestParam(value = "tags") List<String> tags,
+												@RequestParam(value = "description") String description,
+												@RequestPart(value = "preview") MultipartFile preview) {
 		try {
-			return convert((courseService.update(courseDTO)));
-		} catch (EntityNotFoundException | ExistObjectException exception) {
+			CourseDTO courseDTO = new CourseDTO().setId(id).setTitle(title).setTags(tags).setDescription(description);
+			return convert((courseService.update(courseDTO, preview)));
+		} catch (EntityNotFoundException | IOException | ExistObjectException exception) {
 			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
 		}
 	}
