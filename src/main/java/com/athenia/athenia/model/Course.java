@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  * @author Vitalii Vasylykha
@@ -17,11 +16,21 @@ public class Course {
 	private String id;
 	@NotBlank
 	private String title;
+	private String preview;
 	private String description;
 	@NotBlank
 	@Indexed(unique = true)
 	private String securityCode;
 	private List<String> tags;
+
+	public String getPreview() {
+		return preview;
+	}
+
+	public Course setPreview(String preview) {
+		this.preview = preview;
+		return this;
+	}
 
 	public String getId() {
 		return id;

@@ -16,12 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Vitalii Vasylykha
@@ -34,12 +33,13 @@ public class CourseService {
 	@Autowired
 	private TagService tagService;
 	@Autowired
+	private AmazonClient amazonClient;
+	@Autowired
 	private UserService userService;
 	@Autowired
 	private CourseRepository courseRepository;
 	@Autowired
 	private CourseReferenceService courseReferenceService;
-	private static final Logger log = LoggerFactory.getLogger(CourseService.class);
 
 	public List<Course> getAll() {
 		return courseRepository.findAll();
@@ -70,11 +70,13 @@ public class CourseService {
 		return courses.getContent();
 	}
 
-	public Course create(CourseDTO courseDTO, String ownerName) {
+	public Course create(CourseDTO courseDTO, String ownerName, MultipartFile preview) {
 		List<Tag> tags = tagService.find(courseDTO.getTags());
+		String imageUrl = amazonClient.uploadFile(preview);
 		Course course = CourseMapper.INSTANCE.courseDTOToCourse(courseDTO)
 				.setTags(tags.stream().map(Tag::getTag).toList())
-				.setSecurityCode(UUID.randomUUID().toString());
+				.setSecurityCode(UUID.randomUUID().toString())
+				.setPreview(imageUrl);
 		course = courseRepository.save(course);
 		User user = userService.findByUsername(ownerName);
 		courseReferenceService.addOwnerReference(course, user);

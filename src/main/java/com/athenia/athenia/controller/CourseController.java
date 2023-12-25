@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Vitalii Vasylykha
@@ -94,11 +97,15 @@ public class CourseController {
 		}
 	}
 
-	@PostMapping
-	public ListObjectResponse<CourseDTO> create(@RequestBody CourseDTO courseDTO) {
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ListObjectResponse<CourseDTO> create(@RequestParam(value = "title") String title,
+												@RequestParam(value = "description") String description,
+												@RequestParam(value = "tags") List<String> tags,
+												@RequestPart(value = "preview") MultipartFile preview) {
 		try {
 			String ownerName = SecurityContextHolder.getContext().getAuthentication().getName();
-			return convert((courseService.create(courseDTO, ownerName)));
+			CourseDTO courseDTO = new CourseDTO().setTitle(title).setTags(tags).setDescription(description);
+			return convert((courseService.create(courseDTO, ownerName, preview)));
 		} catch (EntityNotFoundException | ExistObjectException exception) {
 			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
 		}

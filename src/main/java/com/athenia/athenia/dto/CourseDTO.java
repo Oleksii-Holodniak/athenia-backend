@@ -11,6 +11,7 @@ public class CourseDTO {
 
 	private String id;
 	private String title;
+	private String preview;
 	private String description;
 	private List<String> tags;
 
@@ -47,6 +48,15 @@ public class CourseDTO {
 
 	public CourseDTO setTags(List<String> tags) {
 		this.tags = tags;
+		return this;
+	}
+
+	public String getPreview() {
+		return preview;
+	}
+
+	public CourseDTO setPreview(String preview) {
+		this.preview = preview;
 		return this;
 	}
 }
