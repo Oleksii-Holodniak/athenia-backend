@@ -98,6 +98,11 @@ public class CourseService {
 		return addCourseReference(courseId, userDTO, CourseReferenceType.STUDENT);
 	}
 
+	public Course addStudent(String securityCode, String studentName) {
+		Course course = findBySecurityCode(securityCode);
+		return addCourseReference(course.getId(), studentName, CourseReferenceType.STUDENT);
+	}
+
 	public Course deleteOwner(String courseId, UserDTO userDTO) {
 		return deleteCourseReference(courseId, userDTO, CourseReferenceType.OWNER);
 	}
@@ -107,14 +112,18 @@ public class CourseService {
 	}
 
 	public Course addCourseReference(String courseId, UserDTO userDTO, CourseReferenceType courseReferenceType) {
+		return addCourseReference(courseId, userDTO.getUsername(), courseReferenceType);
+	}
+
+	public Course addCourseReference(String courseId, String username, CourseReferenceType courseReferenceType) {
 		Course course = findById(courseId);
-		User user = userService.findByUsername(userDTO.getUsername());
+		User user = userService.findByUsername(username);
 		List<CourseReference> courseReferences = courseReferenceService.findAllByCourse(course);
 		Optional<CourseReference> courseReferenceOptional = courseReferences.stream()
 				.filter(findUserReferenceCourse(user, courseReferenceType))
 				.findFirst();
 		if (courseReferenceOptional.isPresent()) {
-			throw new ExistObjectException(CourseReference.class, userDTO.getUsername());
+			throw new ExistObjectException(CourseReference.class, username);
 		}
 		courseReferenceService.create(course, user, courseReferenceType);
 		return findById(courseId);

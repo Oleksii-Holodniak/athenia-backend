@@ -133,6 +133,16 @@ public class CourseController {
 		}
 	}
 
+	@PostMapping("/student/{securityCode}")
+	public ListObjectResponse<CourseDTO> addStudent(@PathVariable String securityCode) {
+		try {
+			String ownerName = SecurityContextHolder.getContext().getAuthentication().getName();
+			return convert(courseService.addStudent(securityCode, ownerName));
+		} catch (RuntimeException exception) {
+			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
+		}
+	}
+
 	@DeleteMapping("/{courseId}/owner")
 	public ListObjectResponse<CourseDTO> deleteOwner(@PathVariable String courseId,
 													 @RequestBody UserDTO userDTO) {
