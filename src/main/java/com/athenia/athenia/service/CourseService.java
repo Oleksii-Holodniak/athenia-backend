@@ -73,11 +73,11 @@ public class CourseService {
 
 	public Course create(CourseDTO courseDTO, String ownerName, MultipartFile preview) throws IOException {
 		List<Tag> tags = tagService.find(courseDTO.getTags());
-//		String imageUrl = amazonClient.uploadFile(preview);
+		String imageUrl = amazonClient.uploadFile(preview);
 		Course course = CourseMapper.INSTANCE.courseDTOToCourse(courseDTO)
 				.setTags(tags.stream().map(Tag::getTag).toList())
-				.setSecurityCode(UUID.randomUUID().toString());
-//				.setPreview(imageUrl);
+				.setSecurityCode(UUID.randomUUID().toString())
+				.setPreview(imageUrl);
 		course = courseRepository.save(course);
 		User user = userService.findByUsername(ownerName);
 		courseReferenceService.addOwnerReference(course, user);
@@ -86,12 +86,12 @@ public class CourseService {
 
 	public Course update(CourseDTO courseDTO, MultipartFile preview) throws IOException {
 		Course course = findById(courseDTO.getId());
-//		String imageUrl = amazonClient.uploadFile(preview);
+		String imageUrl = amazonClient.uploadFile(preview);
 		List<Tag> tags = tagService.find(courseDTO.getTags());
 		course.setDescription(courseDTO.getDescription())
 				.setTitle(courseDTO.getTitle())
-				.setTags(tags.stream().map(Tag::getTag).toList());
-//				.setPreview(imageUrl);
+				.setTags(tags.stream().map(Tag::getTag).toList())
+				.setPreview(imageUrl);
 		return courseRepository.save(course);
 	}
 
