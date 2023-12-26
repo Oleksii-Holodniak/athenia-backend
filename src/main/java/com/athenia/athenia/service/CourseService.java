@@ -84,12 +84,14 @@ public class CourseService {
 		return course;
 	}
 
-	public Course update(CourseDTO courseDTO) {
+	public Course update(CourseDTO courseDTO, MultipartFile preview) throws IOException {
 		Course course = findById(courseDTO.getId());
+		String imageUrl = amazonClient.uploadFile(preview);
 		List<Tag> tags = tagService.find(courseDTO.getTags());
 		course.setDescription(courseDTO.getDescription())
 				.setTitle(courseDTO.getTitle())
-				.setTags(tags.stream().map(Tag::getTag).toList());
+				.setTags(tags.stream().map(Tag::getTag).toList())
+				.setPreview(imageUrl);
 		return courseRepository.save(course);
 	}
 
