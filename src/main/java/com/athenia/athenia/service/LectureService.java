@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,7 @@ public class LectureService {
 	public List<Lecture> findLectures(Course course) {
 		return lectureReferenceService.findByCourse(course).stream()
 				.map(LectureReference::getLecture)
+				.filter(Objects::nonNull)
 				.toList();
 	}
 

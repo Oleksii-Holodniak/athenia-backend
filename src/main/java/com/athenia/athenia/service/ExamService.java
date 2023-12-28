@@ -8,6 +8,7 @@ import com.athenia.athenia.model.LectureReference;
 import com.athenia.athenia.repository.ExamRepository;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class ExamService {
 	public List<Exam> findLectures(Course course) {
 		return lectureReferenceService.findByCourse(course).stream()
 				.map(LectureReference::getExam)
+				.filter(Objects::nonNull)
 				.toList();
 	}
 }
