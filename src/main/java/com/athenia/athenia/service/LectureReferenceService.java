@@ -26,8 +26,10 @@ public class LectureReferenceService {
 		Course course = courseService.findById(courseId);
 		LectureReference lectureReference = new LectureReference()
 				.setCourse(course)
-				.setLecture(lecture)
-				.setSerial(Integer.valueOf(serialId));
+				.setLecture(lecture);
+		if (serialId != null) {
+			lectureReference.setSerial(Integer.valueOf(serialId));
+		}
 		return lectureReferenceRepository.save(lectureReference);
 	}
 

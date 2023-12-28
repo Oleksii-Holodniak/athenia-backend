@@ -39,7 +39,7 @@ public class LectureController {
 	public ListObjectResponse<LectureDTO> create(@RequestParam(value = "title") String title,
 												 @RequestParam(value = "description") String description,
 												 @RequestParam(value = "time") String time,
-												 @RequestParam(value = "serial") String serial,
+												 @RequestParam(value = "serial", required = false) String serial,
 												 @RequestParam(value = "courseId") String courseId,
 												 @RequestPart(value = "files") List<MultipartFile> files) {
 		try {
