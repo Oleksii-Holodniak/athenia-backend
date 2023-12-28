@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/12/17
  */
 

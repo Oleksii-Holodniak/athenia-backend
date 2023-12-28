@@ -2,7 +2,7 @@ package com.athenia.athenia.dto;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/12/29
  */
 public class ExamCreateDTO extends ExamDTO {

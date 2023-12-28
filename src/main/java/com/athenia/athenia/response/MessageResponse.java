@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/11/22
  */
 public class MessageResponse<T> {

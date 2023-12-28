@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/12/28
  */
 public class Exam {

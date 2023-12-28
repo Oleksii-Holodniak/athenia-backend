@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/11/12
  */
 @Mapper

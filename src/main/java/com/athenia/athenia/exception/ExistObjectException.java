@@ -2,7 +2,7 @@ package com.athenia.athenia.exception;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/12/17
  */
 public class ExistObjectException extends RuntimeException {

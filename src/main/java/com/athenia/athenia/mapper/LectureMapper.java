@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/12/27
  */
 @Mapper

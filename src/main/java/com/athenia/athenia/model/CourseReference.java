@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/12/18
  */
 

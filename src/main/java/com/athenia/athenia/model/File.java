@@ -2,7 +2,7 @@ package com.athenia.athenia.model;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/12/28
  */
 public class File {

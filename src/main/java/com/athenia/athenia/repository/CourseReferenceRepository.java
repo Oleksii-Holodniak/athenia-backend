@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 /**
  * @author Vitalii Vasylykha
- * @company UnitedThinkers
+ * @company UzhNU
  * @since 2023/12/18
  */
 public interface CourseReferenceRepository extends MongoRepository<CourseReference, String> {
