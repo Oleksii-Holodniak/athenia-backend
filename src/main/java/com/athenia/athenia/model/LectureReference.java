@@ -11,10 +11,9 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
  * @since 2023/12/27
  */
 @CompoundIndexes({
-		@CompoundIndex(name = "unique_serial_lecture_course", def = "{'course._id': 1, 'lecture._id': 1, 'serial': 1}", unique = true)
+		@CompoundIndex(name = "unique_serial_lecture_course", def = "{'course._id': 1, 'lecture._id': 1}", unique = true)
 })
 public class LectureReference {
-	@NotNull
 	private Integer serial;
 	@NotNull
 	@DBRef
