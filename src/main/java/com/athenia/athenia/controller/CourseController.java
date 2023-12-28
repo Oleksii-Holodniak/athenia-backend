@@ -26,6 +26,7 @@ import com.athenia.athenia.service.LectureReferenceService;
 import com.athenia.athenia.service.LectureService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -215,6 +216,7 @@ public class CourseController {
 			course.setTime(lectureReferenceService.findTime(course));
 			coursesDTO.add(CourseMapper.INSTANCE.courseToCourseDTO(course));
 		}
+		coursesDTO.sort(Comparator.comparing(CourseDTO::getId).reversed());
 		return new ListObjectResponse<>(coursesDTO);
 	}
 
@@ -229,6 +231,7 @@ public class CourseController {
 					.setMaterials(getLecturesDTO(course))
 					.setExams(getExamsDTO(course)));
 		}
+		coursesDTO.sort(Comparator.comparing(CourseDTO::getId).reversed());
 		return new ListObjectResponse<>(coursesDTO);
 	}
 
