@@ -91,8 +91,7 @@ public class CourseService {
 		course.setDescription(courseDTO.getDescription())
 				.setTitle(courseDTO.getTitle())
 				.setTags(tags.stream().map(Tag::getTag).toList())
-				.setPreview(imageUrl)
-				.setTime(Integer.valueOf(courseDTO.getTime()));
+				.setPreview(imageUrl);
 		return courseRepository.save(course);
 	}
 

@@ -3,15 +3,14 @@ package com.athenia.athenia.model;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.List;
 import org.springframework.data.annotation.Id;
 
 /**
  * @author Vitalii Vasylykha
  * @company UnitedThinkers
- * @since 2023/12/27
+ * @since 2023/12/28
  */
-public class Lecture {
+public class Exam {
 	@Id
 	private String id;
 	@NotBlank
@@ -20,13 +19,13 @@ public class Lecture {
 	private Double time;
 	private Date createDate;
 	private String description;
-	private List<File> files;
+	private String link;
 
 	public String getId() {
 		return id;
 	}
 
-	public Lecture setId(String id) {
+	public Exam setId(String id) {
 		this.id = id;
 		return this;
 	}
@@ -35,7 +34,7 @@ public class Lecture {
 		return title;
 	}
 
-	public Lecture setTitle(String title) {
+	public Exam setTitle(String title) {
 		this.title = title;
 		return this;
 	}
@@ -44,26 +43,8 @@ public class Lecture {
 		return time;
 	}
 
-	public Lecture setTime(Double time) {
+	public Exam setTime(Double time) {
 		this.time = time;
-		return this;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Lecture setDescription(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public List<File> getFiles() {
-		return files;
-	}
-
-	public Lecture setFiles(List<File> files) {
-		this.files = files;
 		return this;
 	}
 
@@ -71,8 +52,26 @@ public class Lecture {
 		return createDate;
 	}
 
-	public Lecture setCreateDate(Date createDate) {
+	public Exam setCreateDate(Date createDate) {
 		this.createDate = createDate;
+		return this;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Exam setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public Exam setLink(String link) {
+		this.link = link;
 		return this;
 	}
 }

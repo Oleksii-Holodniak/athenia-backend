@@ -1,8 +1,8 @@
 package com.athenia.athenia.service;
 
 import com.athenia.athenia.exception.EntityNotFoundException;
-import com.athenia.athenia.exception.ExistObjectException;
 import com.athenia.athenia.model.Course;
+import com.athenia.athenia.model.Exam;
 import com.athenia.athenia.model.Lecture;
 import com.athenia.athenia.model.LectureReference;
 import com.athenia.athenia.repository.LectureReferenceRepository;
@@ -24,17 +24,18 @@ public class LectureReferenceService {
 
 	public LectureReference create(Lecture lecture, String serialId, String courseId) {
 		Course course = courseService.findById(courseId);
-		try {
-			LectureReference existLectureReference = findByLecture(lecture);
-			if (existLectureReference != null) {
-				throw new ExistObjectException(LectureReference.class, serialId);
-			}
-		} catch (EntityNotFoundException ex) {
-		}
 		LectureReference lectureReference = new LectureReference()
 				.setCourse(course)
 				.setLecture(lecture)
 				.setSerial(Integer.valueOf(serialId));
+		return lectureReferenceRepository.save(lectureReference);
+	}
+
+	public LectureReference create(Exam exam, String courseId) {
+		Course course = courseService.findById(courseId);
+		LectureReference lectureReference = new LectureReference()
+				.setCourse(course)
+				.setExam(exam);
 		return lectureReferenceRepository.save(lectureReference);
 	}
 
@@ -45,5 +46,18 @@ public class LectureReferenceService {
 
 	public List<LectureReference> findByCourse(Course course) {
 		return lectureReferenceRepository.findByCourse(course);
+	}
+
+	public Double findTime(Course course) {
+		List<LectureReference> lectureReferences = findByCourse(course);
+		Double timeLecture = lectureReferences.stream()
+				.filter(lectureReference -> lectureReference.getLecture() != null)
+				.mapToDouble(lectureReference -> lectureReference.getLecture().getTime())
+				.sum();
+		Double examLecture = lectureReferences.stream()
+				.filter(lectureReference -> lectureReference.getExam() != null)
+				.mapToDouble(lectureReference -> lectureReference.getExam().getTime())
+				.sum();
+		return timeLecture + examLecture;
 	}
 }

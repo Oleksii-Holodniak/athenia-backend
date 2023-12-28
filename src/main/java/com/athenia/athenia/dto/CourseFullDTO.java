@@ -7,6 +7,7 @@ public class CourseFullDTO extends CourseDTO {
 	private List<UserDTO> owners;
 	private List<UserDTO> students;
 	private List<LectureDTO> materials;
+	private List<ExamDTO> exams;
 
 	public List<UserDTO> getStudents() {
 		return students;
@@ -41,6 +42,15 @@ public class CourseFullDTO extends CourseDTO {
 
 	public CourseFullDTO setMaterials(List<LectureDTO> materials) {
 		this.materials = materials;
+		return this;
+	}
+
+	public List<ExamDTO> getExams() {
+		return exams;
+	}
+
+	public CourseFullDTO setExams(List<ExamDTO> exams) {
+		this.exams = exams;
 		return this;
 	}
 }

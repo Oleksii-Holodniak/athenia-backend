@@ -1,9 +1,9 @@
 package com.athenia.athenia.model;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
@@ -23,8 +23,8 @@ public class Course {
 	@Indexed(unique = true)
 	private String securityCode;
 	private List<String> tags;
-	@Min(1)
-	private Integer time;
+	@Transient
+	private Double time;
 
 	public String getPreview() {
 		return preview;
@@ -80,11 +80,11 @@ public class Course {
 		return this;
 	}
 
-	public Integer getTime() {
+	public Double getTime() {
 		return time;
 	}
 
-	public Course setTime(Integer time) {
+	public Course setTime(Double time) {
 		this.time = time;
 		return this;
 	}
