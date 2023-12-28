@@ -1,5 +1,6 @@
 package com.athenia.athenia.model;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -22,6 +23,8 @@ public class Course {
 	@Indexed(unique = true)
 	private String securityCode;
 	private List<String> tags;
+	@Min(1)
+	private Integer time;
 
 	public String getPreview() {
 		return preview;
@@ -74,6 +77,15 @@ public class Course {
 
 	public Course setTags(List<String> tags) {
 		this.tags = tags;
+		return this;
+	}
+
+	public Integer getTime() {
+		return time;
+	}
+
+	public Course setTime(Integer time) {
+		this.time = time;
 		return this;
 	}
 }

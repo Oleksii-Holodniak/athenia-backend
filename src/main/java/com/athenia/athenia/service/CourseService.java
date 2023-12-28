@@ -34,7 +34,7 @@ public class CourseService {
 	@Autowired
 	private TagService tagService;
 	@Autowired
-	private AmazonClient amazonClient;
+	private FileService fileService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -73,7 +73,7 @@ public class CourseService {
 
 	public Course create(CourseDTO courseDTO, String ownerName, MultipartFile preview) throws IOException {
 		List<Tag> tags = tagService.find(courseDTO.getTags());
-		String imageUrl = amazonClient.uploadFile(preview);
+		String imageUrl = fileService.uploadFile(preview);
 		Course course = CourseMapper.INSTANCE.courseDTOToCourse(courseDTO)
 				.setTags(tags.stream().map(Tag::getTag).toList())
 				.setSecurityCode(UUID.randomUUID().toString())
@@ -86,12 +86,13 @@ public class CourseService {
 
 	public Course update(CourseDTO courseDTO, MultipartFile preview) throws IOException {
 		Course course = findById(courseDTO.getId());
-		String imageUrl = amazonClient.uploadFile(preview);
+		String imageUrl = fileService.uploadFile(preview);
 		List<Tag> tags = tagService.find(courseDTO.getTags());
 		course.setDescription(courseDTO.getDescription())
 				.setTitle(courseDTO.getTitle())
 				.setTags(tags.stream().map(Tag::getTag).toList())
-				.setPreview(imageUrl);
+				.setPreview(imageUrl)
+				.setTime(Integer.valueOf(courseDTO.getTime()));
 		return courseRepository.save(course);
 	}
 

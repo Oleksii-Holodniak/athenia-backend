@@ -6,6 +6,7 @@ public class CourseFullDTO extends CourseDTO {
 	private String securityCode;
 	private List<UserDTO> owners;
 	private List<UserDTO> students;
+	private List<LectureDTO> materials;
 
 	public List<UserDTO> getStudents() {
 		return students;
@@ -29,8 +30,17 @@ public class CourseFullDTO extends CourseDTO {
 		return securityCode;
 	}
 
-	public CourseDTO setSecurityCode(String securityCode) {
+	public CourseFullDTO setSecurityCode(String securityCode) {
 		this.securityCode = securityCode;
+		return this;
+	}
+
+	public List<LectureDTO> getMaterials() {
+		return materials;
+	}
+
+	public CourseFullDTO setMaterials(List<LectureDTO> materials) {
+		this.materials = materials;
 		return this;
 	}
 }

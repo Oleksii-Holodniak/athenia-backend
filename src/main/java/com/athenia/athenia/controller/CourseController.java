@@ -2,19 +2,25 @@ package com.athenia.athenia.controller;
 
 import com.athenia.athenia.dto.CourseDTO;
 import com.athenia.athenia.dto.CourseFullDTO;
+import com.athenia.athenia.dto.LectureDTO;
 import com.athenia.athenia.dto.UserDTO;
 import com.athenia.athenia.enumeration.CourseReferenceType;
 import com.athenia.athenia.exception.EntityNotFoundException;
 import com.athenia.athenia.exception.ExistObjectException;
 import com.athenia.athenia.mapper.CourseMapper;
+import com.athenia.athenia.mapper.LectureMapper;
 import com.athenia.athenia.mapper.UserMapper;
 import com.athenia.athenia.model.Course;
 import com.athenia.athenia.model.CourseReference;
+import com.athenia.athenia.model.Lecture;
+import com.athenia.athenia.model.LectureReference;
 import com.athenia.athenia.model.User;
 import com.athenia.athenia.response.ListObjectResponse;
 import com.athenia.athenia.response.MessageResponse;
 import com.athenia.athenia.service.CourseReferenceService;
 import com.athenia.athenia.service.CourseService;
+import com.athenia.athenia.service.LectureReferenceService;
+import com.athenia.athenia.service.LectureService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +50,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class CourseController {
 	@Autowired
 	CourseService courseService;
-
+	@Autowired
+	LectureService lectureService;
+	@Autowired
+	LectureReferenceService lectureReferenceService;
 	@Autowired
 	CourseReferenceService courseReferenceService;
 
@@ -101,11 +110,12 @@ public class CourseController {
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ListObjectResponse<CourseDTO> create(@RequestParam(value = "title") String title,
 												@RequestParam(value = "description") String description,
+												@RequestParam(value = "time") String time,
 												@RequestParam(value = "tags") List<String> tags,
 												@RequestPart(value = "preview") MultipartFile preview) {
 		try {
 			String ownerName = SecurityContextHolder.getContext().getAuthentication().getName();
-			CourseDTO courseDTO = new CourseDTO().setTitle(title).setTags(tags).setDescription(description);
+			CourseDTO courseDTO = new CourseDTO().setTitle(title).setTime(time).setTags(tags).setDescription(description);
 			return convert((courseService.create(courseDTO, ownerName, preview)));
 		} catch (EntityNotFoundException | IOException | ExistObjectException exception) {
 			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
@@ -115,11 +125,12 @@ public class CourseController {
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ListObjectResponse<CourseDTO> update(@RequestParam(value = "title") String title,
 												@RequestParam(value = "id") String id,
+												@RequestParam(value = "time") String time,
 												@RequestParam(value = "tags") List<String> tags,
 												@RequestParam(value = "description") String description,
 												@RequestPart(value = "preview") MultipartFile preview) {
 		try {
-			CourseDTO courseDTO = new CourseDTO().setId(id).setTitle(title).setTags(tags).setDescription(description);
+			CourseDTO courseDTO = new CourseDTO().setId(id).setTitle(title).setTags(tags).setTime(time).setDescription(description);
 			return convert((courseService.update(courseDTO, preview)));
 		} catch (EntityNotFoundException | IOException | ExistObjectException exception) {
 			return new ListObjectResponse<>(HttpStatus.BAD_REQUEST, exception);
@@ -209,7 +220,8 @@ public class CourseController {
 			List<CourseReference> courseReferences = courseReferenceService.findAllByCourse(course);
 			coursesDTO.add(CourseMapper.INSTANCE.courseToCourseFullDTO(course)
 					.setOwners(getUsers(courseReferences, CourseReferenceType.OWNER))
-					.setStudents(getUsers(courseReferences, CourseReferenceType.STUDENT)));
+					.setStudents(getUsers(courseReferences, CourseReferenceType.STUDENT))
+					.setMaterials(getLecturesDTO(course)));
 		}
 		return new ListObjectResponse<>(coursesDTO);
 	}
@@ -222,6 +234,16 @@ public class CourseController {
 		return owners.stream()
 				.map(UserMapper.INSTANCE::userToUserDTO)
 				.toList();
+	}
+
+	private List<LectureDTO> getLecturesDTO(Course course) {
+		List<Lecture> lectures = lectureService.findLectures(course);
+		List<LectureDTO> lecturesDTO = new ArrayList<>(lectures.size());
+		for (Lecture lecture : lectures) {
+			LectureReference lectureReference = lectureReferenceService.findByLecture(lecture);
+			lecturesDTO.add(LectureMapper.INSTANCE.lectureToLectureDTO(lecture, lectureReference));
+		}
+		return lecturesDTO;
 	}
 
 }

@@ -1,11 +1,7 @@
 package com.athenia.athenia.service;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -24,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @since 2023/12/25
  */
 @Service
-public class AmazonClient {
+public class FileService {
 	private AmazonS3 s3client;
 	@Value("${amazonProperties.endpointUrl}")
 	private String endpointUrl;

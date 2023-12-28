@@ -10,6 +10,7 @@ import java.util.List;
 public class CourseDTO {
 
 	private String id;
+	private String time;
 	private String title;
 	private String preview;
 	private String description;
@@ -57,6 +58,15 @@ public class CourseDTO {
 
 	public CourseDTO setPreview(String preview) {
 		this.preview = preview;
+		return this;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public CourseDTO setTime(String time) {
+		this.time = time;
 		return this;
 	}
 }
