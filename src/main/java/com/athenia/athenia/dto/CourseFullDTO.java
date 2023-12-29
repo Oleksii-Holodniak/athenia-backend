@@ -4,7 +4,6 @@ import java.util.List;
 
 public class CourseFullDTO extends CourseDTO {
 	private String securityCode;
-	private List<UserDTO> owners;
 	private List<UserDTO> students;
 	private List<LectureDTO> materials;
 	private List<ExamDTO> exams;

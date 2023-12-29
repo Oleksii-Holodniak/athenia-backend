@@ -214,7 +214,9 @@ public class CourseController {
 		List<CourseDTO> coursesDTO = new ArrayList<>(courses.size());
 		for (Course course : courses) {
 			course.setTime(lectureReferenceService.findTime(course));
-			coursesDTO.add(CourseMapper.INSTANCE.courseToCourseDTO(course));
+			List<CourseReference> courseReferences = courseReferenceService.findAllByCourse(course);
+			coursesDTO.add(CourseMapper.INSTANCE.courseToCourseDTO(course)
+					.setOwners(getUsers(courseReferences, CourseReferenceType.OWNER)));
 		}
 		coursesDTO.sort(Comparator.comparing(CourseDTO::getId).reversed());
 		return new ListObjectResponse<>(coursesDTO);

@@ -15,6 +15,16 @@ public class CourseDTO {
 	private String preview;
 	private String description;
 	private List<String> tags;
+	protected List<UserDTO> owners;
+
+	public List<UserDTO> getOwners() {
+		return owners;
+	}
+
+	public CourseDTO setOwners(List<UserDTO> owners) {
+		this.owners = owners;
+		return this;
+	}
 
 	public String getId() {
 		return id;

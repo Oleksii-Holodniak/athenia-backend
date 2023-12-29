@@ -11,6 +11,7 @@ import com.athenia.athenia.model.CourseReference;
 import com.athenia.athenia.model.User;
 import com.athenia.athenia.response.ListObjectResponse;
 import com.athenia.athenia.service.CourseReferenceService;
+import com.athenia.athenia.service.LectureReferenceService;
 import com.athenia.athenia.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
+	LectureReferenceService lectureReferenceService;
+	@Autowired
 	private CourseReferenceService courseReferenceService;
 
 	@GetMapping("/info")
@@ -37,9 +40,11 @@ public class UserController {
 			List<Course> ownerCourses = courseReferenceService.findAllByUserOwner(user).stream()
 					.map(CourseReference::getCourse)
 					.toList();
+			ownerCourses.forEach(course -> course.setTime(lectureReferenceService.findTime(course)));
 			List<Course> studentCourses = courseReferenceService.findAllByUserStudent(user).stream()
 					.map(CourseReference::getCourse)
 					.toList();
+			studentCourses.forEach(course -> course.setTime(lectureReferenceService.findTime(course)));
 			List<CourseDTO> ownerCoursesDTO = ownerCourses.stream()
 					.map(CourseMapper.INSTANCE::courseToCourseDTO)
 					.toList();
