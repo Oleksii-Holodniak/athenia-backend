@@ -50,7 +50,7 @@ public class JwtUtils {
 		return ResponseCookie.from(jwtCookie, jwt)
 				.maxAge(MAX_AGE_IN_SECONDS)
 				.sameSite(SAME_SITE)
-				//.domain(DOMAIN)
+				.domain(DOMAIN)
 				.httpOnly(false)
 				.secure(true)
 				.path(PATH)
