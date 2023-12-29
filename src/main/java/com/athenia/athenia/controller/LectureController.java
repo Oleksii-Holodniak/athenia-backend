@@ -41,7 +41,7 @@ public class LectureController {
 												 @RequestParam(value = "time") String time,
 												 @RequestParam(value = "serial", required = false) String serial,
 												 @RequestParam(value = "courseId") String courseId,
-												 @RequestPart(value = "files") List<MultipartFile> files) {
+												 @RequestPart(value = "files", required = false) List<MultipartFile> files) {
 		try {
 			LectureDTO lectureDTO = new LectureDTO()
 					.setTime(time)
