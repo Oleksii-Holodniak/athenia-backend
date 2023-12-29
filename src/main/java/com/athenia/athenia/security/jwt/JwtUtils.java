@@ -50,7 +50,7 @@ public class JwtUtils {
 				.maxAge(MAX_AGE_IN_SECONDS)
 				.sameSite(SAME_SITE)
 				.httpOnly(true)
-				.secure(false)
+				.secure(true)
 				.path(PATH)
 				.build();
 	}
