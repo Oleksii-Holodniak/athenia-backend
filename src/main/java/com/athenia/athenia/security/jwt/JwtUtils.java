@@ -52,7 +52,7 @@ public class JwtUtils {
 				.sameSite(SAME_SITE)
 				.domain(DOMAIN)
 				.httpOnly(false)
-				.secure(true)
+				.secure(false)
 				.path(PATH)
 				.build();
 	}
